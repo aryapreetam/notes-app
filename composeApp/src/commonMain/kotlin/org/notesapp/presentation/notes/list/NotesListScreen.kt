@@ -5,31 +5,42 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
 import org.notesapp.data.model.Note
 import org.notesapp.presentation.components.NoteCard
+import org.notesapp.theme.LocalThemeIsDark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotesListScreen(
-  onAddClick: () -> Unit
+  onAddClick: () -> Unit,
+  onJsMessage: (String) -> Unit,
+  onViewPdf: () -> Unit = {},
+  modifier: Modifier = Modifier,
 ) {
-
   val viewModel = koinViewModel<NotesListViewModel>()
-
   val state by viewModel.state.collectAsState()
+
+  // Theme state from CompositionLocal
+  val isDarkState = LocalThemeIsDark.current
+  val isDark by isDarkState
+
+  var menuExpanded by remember { mutableStateOf(false) }
 
   Scaffold(
     topBar = {
       TopAppBar(
-        title = { Text("Notes") },
+        title = { Text("My Notes", fontWeight = FontWeight.Bold) },
         actions = {
           IconButton(onClick = onAddClick) {
             Icon(
@@ -37,12 +48,51 @@ fun NotesListScreen(
               contentDescription = "Add Note"
             )
           }
+          Box {
+            IconButton(onClick = { menuExpanded = true }) {
+              Icon(
+                imageVector = Icons.Default.MoreVert,
+                contentDescription = "More options"
+              )
+            }
+            DropdownMenu(
+              expanded = menuExpanded,
+              onDismissRequest = { menuExpanded = false }
+            ) {
+              DropdownMenuItem(
+                text = { Text("Toggle Theme") },
+                leadingIcon = {
+                  Icon(
+                    imageVector = if (isDark) Icons.Filled.LightMode else Icons.Filled.DarkMode,
+                    contentDescription = if (isDark) "Switch to light theme" else "Switch to dark theme"
+                  )
+                },
+                onClick = {
+                  isDarkState.value = !isDark
+                  menuExpanded = false
+                }
+              )
+              DropdownMenuItem(
+                text = { Text("View PDF") },
+                leadingIcon = {
+                  Icon(
+                    imageVector = Icons.Filled.PictureAsPdf,
+                    contentDescription = "View PDF"
+                  )
+                },
+                onClick = {
+                  menuExpanded = false
+                  onViewPdf()
+                }
+              )
+            }
+          }
         }
       )
     },
     content = { innerPadding ->
       Box(
-        modifier = Modifier
+        modifier = modifier
           .fillMaxSize()
           .padding(innerPadding)
       ) {
@@ -50,7 +100,6 @@ fun NotesListScreen(
           state.isLoading -> {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
           }
-
           state.error != null -> {
             Text(
               text = state.error ?: "Error",
@@ -59,7 +108,6 @@ fun NotesListScreen(
               modifier = Modifier.align(Alignment.Center)
             )
           }
-
           !state.hasNotes -> {
             Text(
               text = "No notes yet. Create your first note!",
@@ -67,7 +115,6 @@ fun NotesListScreen(
               modifier = Modifier.align(Alignment.Center)
             )
           }
-
           else -> {
             LazyColumn(
               modifier = Modifier.fillMaxSize(),
@@ -79,12 +126,12 @@ fun NotesListScreen(
                   note = note,
                   onDeleteClick = { viewModel.onDeleteClick(note) },
                   onCardClick = { /* No-op for now */ },
+                  onJsMessage = onJsMessage,
                 )
               }
             }
           }
         }
-        // Delete confirmation dialog
         if (state.showDeleteDialog && state.noteToDelete != null) {
           AlertDialog(
             onDismissRequest = viewModel::onDismissDelete,

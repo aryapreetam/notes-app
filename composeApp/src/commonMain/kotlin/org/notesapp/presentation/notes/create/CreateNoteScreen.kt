@@ -5,6 +5,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,6 +16,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import org.koin.compose.viewmodel.koinViewModel
 import org.notesapp.utils.DateFormatter
+import org.notesapp.presentation.components.DatePickerDialog
+import androidx.compose.material3.rememberDatePickerState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,6 +29,10 @@ fun CreateNoteScreen(
   val viewModel = koinViewModel<CreateNoteViewModel>()
   val state by viewModel.state.collectAsState()
   val fm = LocalFocusManager.current
+
+  // State for date picker dialog
+  var showDatePicker by remember { mutableStateOf(false) }
+  val datePickerState = rememberDatePickerState(initialSelectedDateMillis = state.selectedDateMillis)
 
   // Side-effect to trigger onSaved when saveSuccess is set
   LaunchedEffect(state.saveSuccess) {
@@ -46,9 +53,8 @@ fun CreateNoteScreen(
     content = { innerPadding ->
       Column(
         modifier = Modifier
-          .fillMaxSize()
           .padding(innerPadding)
-          .padding(horizontal = 24.dp, vertical = 20.dp),
+          .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
       ) {
         OutlinedTextField(
@@ -86,24 +92,21 @@ fun CreateNoteScreen(
           maxLines = 10,
           minLines = 5,
         )
-        Row(verticalAlignment = Alignment.CenterVertically) {
-          TextButton(
-            onClick = onDatePickRequest,
-            modifier = Modifier.weight(1f)
-          ) {
-            Icon(Icons.Filled.CalendarToday, contentDescription = "Pick Date")
-            Spacer(Modifier.width(8.dp))
-            val dateText = remember(state.selectedDateMillis) {
-              DateFormatter.formatEpochMillis(state.selectedDateMillis)
-            }
-            Text(dateText)
+        TextButton(
+          onClick = { showDatePicker = true },
+          modifier = Modifier.padding(horizontal = 16.dp)
+        ) {
+          Icon(Icons.Filled.DateRange, contentDescription = "Pick Date")
+          Spacer(Modifier.width(8.dp))
+          val dateText = remember(state.selectedDateMillis) {
+            DateFormatter.formatEpochMillis(state.selectedDateMillis)
           }
+          Text(dateText)
         }
-        Spacer(Modifier.height(24.dp))
         Button(
           onClick = { viewModel.save() },
           enabled = state.canSave && !state.isSaving,
-          modifier = Modifier.fillMaxWidth()
+          modifier = Modifier.padding(horizontal = 24.dp)
         ) {
           if (state.isSaving) {
             CircularProgressIndicator(
@@ -115,6 +118,18 @@ fun CreateNoteScreen(
           }
           Text("Save Note")
         }
+      }
+      if (showDatePicker) {
+        DatePickerDialog(
+          onDateSelected = { selectedMillis ->
+            if (selectedMillis != null) {
+              viewModel.onDateChange(selectedMillis)
+            }
+            showDatePicker = false
+          },
+          onDismiss = { showDatePicker = false },
+          state = datePickerState
+        )
       }
     }
   )

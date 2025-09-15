@@ -13,11 +13,15 @@ import org.notesapp.presentation.notes.list.NotesListScreen
 
 @ExperimentalMaterial3Api
 @Composable
-fun NavigationHost(navController: NavHostController) {
+fun NavigationHost(
+  onJsMessage: (String) -> Unit,
+  navController: NavHostController
+) {
   NavHost(navController = navController, startDestination = Screen.NotesList) {
     composable<Screen.NotesList> {
       NotesListScreen(
-        onAddClick = { navController.navigate(Screen.CreateNote) }
+        onAddClick = { navController.navigate(Screen.CreateNote) },
+        onJsMessage = onJsMessage
       )
     }
     composable<Screen.CreateNote> {

@@ -55,7 +55,6 @@ class CreateNoteViewModel(
     if (!s.canSave) return
     scope.launch {
       _state.update { it.copy(isSaving = true) }
-      createNote(s.title.trim(), s.body.trim(), s.selectedDateMillis)
       // Perform background work on IO dispatcher
       withContext(Dispatchers.IO) {
         createNote(s.title.trim(), s.body.trim(), s.selectedDateMillis)
