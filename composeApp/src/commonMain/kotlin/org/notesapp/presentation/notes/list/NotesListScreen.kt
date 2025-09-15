@@ -1,5 +1,6 @@
 package org.notesapp.presentation.notes.list
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,10 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.notesapp.data.model.Note
 import org.notesapp.presentation.components.NoteCard
 import org.notesapp.theme.LocalThemeIsDark
+import personal_notes_app.composeapp.generated.resources.Res
+import personal_notes_app.composeapp.generated.resources.my_notes_icon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,11 +115,22 @@ fun NotesListScreen(
           }
 
           !state.hasNotes -> {
-            Text(
-              text = "No notes yet. Create your first note!",
-              style = MaterialTheme.typography.bodyMedium,
-              modifier = Modifier.align(Alignment.Center)
-            )
+            Column(
+              modifier = Modifier.fillMaxSize(),
+              verticalArrangement = Arrangement.Center,
+              horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+              Image(
+                painter = painterResource(Res.drawable.my_notes_icon),
+                contentDescription = "No notes image",
+                modifier = Modifier.size(120.dp)
+              )
+              Spacer(modifier = Modifier.height(24.dp))
+              Text(
+                text = "No notes yet. Create your first note!",
+                style = MaterialTheme.typography.bodyLarge
+              )
+            }
           }
 
           else -> {
