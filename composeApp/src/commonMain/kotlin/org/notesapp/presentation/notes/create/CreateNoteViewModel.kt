@@ -20,7 +20,7 @@ import kotlin.time.ExperimentalTime
 class CreateNoteViewModel(
   private val createNote: CreateNoteUseCase,
   private val validateHtml: ValidateHtmlUseCase,
-): ViewModel(), KoinComponent {
+) : ViewModel(), KoinComponent {
   private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
   @OptIn(ExperimentalTime::class)

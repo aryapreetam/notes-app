@@ -7,12 +7,15 @@ import kotlinx.serialization.Serializable
  * Serializable allows navigation state to be saved, restored, or passed as screen argument.
  */
 @Serializable
-sealed interface Screen {
+sealed class Screen {
   @Serializable
-  data object NotesList : Screen
+  object NotesList : Screen()
 
   @Serializable
-  data object CreateNote : Screen
+  object CreateNote : Screen()
+
+  @Serializable
+  data class PdfViewer(val url: String) : Screen()
 
   // Example for screen with arguments
   // @Serializable

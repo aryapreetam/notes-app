@@ -6,7 +6,7 @@ import org.koin.core.component.inject
 import org.notesapp.data.model.Note
 import org.notesapp.data.repository.NotesRepository
 
-class GetNotesUseCase(): KoinComponent {
+class GetNotesUseCase() : KoinComponent {
   private val repo: NotesRepository by inject()
 
   operator fun invoke(): Flow<List<Note>> = repo.observeNotes()

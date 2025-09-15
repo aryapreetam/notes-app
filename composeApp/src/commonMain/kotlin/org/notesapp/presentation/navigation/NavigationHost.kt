@@ -10,6 +10,7 @@ import androidx.navigation.toRoute
 import org.koin.compose.koinInject
 import org.notesapp.presentation.notes.create.CreateNoteScreen
 import org.notesapp.presentation.notes.list.NotesListScreen
+import org.notesapp.presentation.pdf.PdfScreen
 
 @ExperimentalMaterial3Api
 @Composable
@@ -21,7 +22,10 @@ fun NavigationHost(
     composable<Screen.NotesList> {
       NotesListScreen(
         onAddClick = { navController.navigate(Screen.CreateNote) },
-        onJsMessage = onJsMessage
+        onJsMessage = onJsMessage,
+        onViewPdf = {
+          navController.navigate(Screen.PdfViewer("https://qa.pilloo.ai/GeneratedPDF/Companies/202/2025-2026/DL.pdf"))
+        }
       )
     }
     composable<Screen.CreateNote> {
@@ -33,6 +37,13 @@ fun NavigationHost(
         onBackClick = {
           navController.popBackStack()
         }
+      )
+    }
+    composable<Screen.PdfViewer> { entry ->
+      val screen = entry.toRoute<Screen.PdfViewer>()
+      PdfScreen(
+        pdfUrl = screen.url,
+        onBack = { navController.popBackStack() }
       )
     }
   }

@@ -1,22 +1,11 @@
 package org.notesapp
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.ui.Alignment
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
 import org.notesapp.presentation.navigation.NavigationHost
 import org.notesapp.theme.AppTheme
-import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -25,6 +14,7 @@ internal fun App() = AppTheme {
   var snackbarMessage by remember { mutableStateOf<String?>(null) }
   val snackbarHostState = remember { SnackbarHostState() }
   val coroutineScope = rememberCoroutineScope()
+  var shouldShowDialog by remember { mutableStateOf(true) }
 
   Scaffold(
     snackbarHost = { SnackbarHost(snackbarHostState) },
@@ -32,11 +22,12 @@ internal fun App() = AppTheme {
       NavigationHost(
         navController = rememberNavController(),
         onJsMessage = { msg ->
-          if (Random.nextBoolean()) {
+          if (shouldShowDialog) {
             dialogMessage = msg
           } else {
             snackbarMessage = msg
           }
+          shouldShowDialog = !shouldShowDialog
         }
       )
       // Dialog can be shown anywhere, it's a dialog overlay

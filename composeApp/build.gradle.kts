@@ -53,7 +53,7 @@ kotlin {
       implementation(libs.kotlinx.datetime)
       implementation(libs.sqlDelight.coroutines.extensions)
       // use api since the desktop app need to access the Cef to initialize it.
-      api("io.github.kevinnzou:compose-webview-multiplatform:2.0.3")
+      api(libs.compose.webview.multiplatform)
     }
 
     commonTest.dependencies {
@@ -68,6 +68,7 @@ kotlin {
       implementation(libs.androidx.activityCompose)
       implementation(libs.kotlinx.coroutines.android)
       implementation(libs.sqlDelight.driver.android)
+      implementation(libs.grizzi91.bouquet)
     }
 
     jvmMain.dependencies {
@@ -79,7 +80,6 @@ kotlin {
     iosMain.dependencies {
       implementation(libs.sqlDelight.driver.native)
     }
-
   }
 }
 

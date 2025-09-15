@@ -18,6 +18,7 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.notesapp.utils.DateFormatter
 import org.notesapp.presentation.components.DatePickerDialog
 import androidx.compose.material3.rememberDatePickerState
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -94,29 +95,32 @@ fun CreateNoteScreen(
         )
         TextButton(
           onClick = { showDatePicker = true },
-          modifier = Modifier.padding(horizontal = 16.dp)
         ) {
-          Icon(Icons.Filled.DateRange, contentDescription = "Pick Date")
-          Spacer(Modifier.width(8.dp))
-          val dateText = remember(state.selectedDateMillis) {
-            DateFormatter.formatEpochMillis(state.selectedDateMillis)
+          Row(modifier = Modifier.padding(horizontal = 16.dp)) {
+            Icon(Icons.Filled.DateRange, contentDescription = "Pick Date")
+            Spacer(Modifier.width(8.dp))
+            val dateText = remember(state.selectedDateMillis) {
+              DateFormatter.formatEpochMillis(state.selectedDateMillis)
+            }
+            Text(dateText)
           }
-          Text(dateText)
         }
+        Spacer(Modifier.width(16.dp))
         Button(
           onClick = { viewModel.save() },
           enabled = state.canSave && !state.isSaving,
-          modifier = Modifier.padding(horizontal = 24.dp)
         ) {
-          if (state.isSaving) {
-            CircularProgressIndicator(
-              modifier = Modifier.size(16.dp),
-              color = MaterialTheme.colorScheme.onPrimary,
-              strokeWidth = 2.dp
-            )
-            Spacer(Modifier.width(12.dp))
+          Row(modifier = Modifier.padding(horizontal = 24.dp, vertical = 16.dp),) {
+            if (state.isSaving) {
+              CircularProgressIndicator(
+                modifier = Modifier.size(16.dp),
+                color = MaterialTheme.colorScheme.onPrimary,
+                strokeWidth = 2.dp
+              )
+              Spacer(Modifier.width(12.dp))
+            }
+            Text("Save Note")
           }
-          Text("Save Note")
         }
       }
       if (showDatePicker) {
@@ -132,5 +136,15 @@ fun CreateNoteScreen(
         )
       }
     }
+  )
+}
+
+@Preview
+@Composable
+fun CreateNoteScreenPreview() {
+  CreateNoteScreen(
+    onBackClick = {},
+    onDatePickRequest = {},
+    onSaved = {}
   )
 }

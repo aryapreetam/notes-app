@@ -17,7 +17,7 @@ import org.notesapp.domain.usecase.GetNotesUseCase
 class NotesListViewModel(
   private val getNotes: GetNotesUseCase,
   private val deleteNote: DeleteNoteUseCase,
-): ViewModel(), KoinComponent {
+) : ViewModel(), KoinComponent {
   private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
   private val _state = MutableStateFlow(NotesListUiState(isLoading = true))

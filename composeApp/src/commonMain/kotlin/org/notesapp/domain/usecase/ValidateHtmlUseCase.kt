@@ -5,7 +5,45 @@ class ValidateHtmlUseCase {
   data class Result(val isValid: Boolean, val error: String? = null)
 
   private val allowedTags = setOf(
-    "p", "b", "i", "u", "a", "ul", "ol", "li", "br", "h1", "h2", "h3", "button", "script", "style", "img", "video", "audio", "source", "track", "canvas", "table", "tbody", "tr", "td", "th", "form", "input", "select", "option", "textarea", "fieldset", "legend", "label", "span", "pre", "code", "pre", "hr"
+    "p",
+    "b",
+    "i",
+    "u",
+    "a",
+    "ul",
+    "ol",
+    "li",
+    "br",
+    "h1",
+    "h2",
+    "h3",
+    "button",
+    "script",
+    "style",
+    "img",
+    "video",
+    "audio",
+    "source",
+    "track",
+    "canvas",
+    "table",
+    "tbody",
+    "tr",
+    "td",
+    "th",
+    "form",
+    "input",
+    "select",
+    "option",
+    "textarea",
+    "fieldset",
+    "legend",
+    "label",
+    "span",
+    "pre",
+    "code",
+    "pre",
+    "hr"
   )
 
   /**

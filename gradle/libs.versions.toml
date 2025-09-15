@@ -12,8 +12,10 @@ androidx-lifecycle = "2.9.3"
 androidx-navigation = "2.9.0-rc01"
 kotlinx-serialization = "1.9.0"
 koin = "4.1.1"
-kotlinx-datetime = "0.7.1"
+kotlinx-datetime = "0.5.0"
 sqlDelight = "2.1.0"
+bouquetVersion = "1.1.2"
+cmp-webview = "2.0.3"
 
 [libraries]
 
@@ -37,6 +39,8 @@ sqlDelight-driver-sqlite = { module = "app.cash.sqldelight:sqlite-driver", versi
 sqlDelight-driver-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlDelight" }
 sqlDelight-driver-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sqlDelight" }
 sqlDelight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqlDelight" }
+grizzi91-bouquet = { module = "io.github.grizzi91:bouquet", version.ref = "bouquetVersion" }
+compose-webview-multiplatform = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "cmp-webview" }
 
 [plugins]
 

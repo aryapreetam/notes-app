@@ -100,6 +100,7 @@ fun NotesListScreen(
           state.isLoading -> {
             CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
           }
+
           state.error != null -> {
             Text(
               text = state.error ?: "Error",
@@ -108,6 +109,7 @@ fun NotesListScreen(
               modifier = Modifier.align(Alignment.Center)
             )
           }
+
           !state.hasNotes -> {
             Text(
               text = "No notes yet. Create your first note!",
@@ -115,6 +117,7 @@ fun NotesListScreen(
               modifier = Modifier.align(Alignment.Center)
             )
           }
+
           else -> {
             LazyColumn(
               modifier = Modifier.fillMaxSize(),
