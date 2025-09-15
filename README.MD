@@ -16,7 +16,14 @@ works on Android, iOS, and Desktop(Only for development purposes).
 
 ## 🎥 Demo
 
-- 📹 [Demo Video](#) <!-- REPLACE WITH ACTUAL DEMO LINK -->
+- iOS
+
+https://github.com/user-attachments/assets/5b96ecf6-a1a3-476d-92e7-24a913b88428
+
+- Android
+
+https://github.com/user-attachments/assets/416597a4-1b73-435d-b69d-fbf9a6ab5f1b
+
 - 🖼️ [Screenshots](#) <!-- REPLACE WITH ACTUAL SCREENSHOT LINKS -->
 
 ---
@@ -211,7 +218,7 @@ flowchart TD
 
 ---
 
-## 🧪 Running Tests
+## 🧪 Running Tests (TBD)
 
 - <strong>Unit tests (domain, repository, utils):</strong>
     - `./gradlew :composeApp:commonTest`
@@ -219,7 +226,7 @@ flowchart TD
     - Android: `./gradlew :composeApp:connectedDebugAndroidTest`
     - Desktop: `./gradlew :composeApp:jvmTest`
 - <strong>End-to-End (Maestro):</strong>
-    - (Setup Maestro CLI, then run E2E scripts—see `docs/implementation_plan.md` for planned flows)
+    - (Setup Maestro CLI, then run E2E scripts)
 
 ---
 
@@ -249,7 +256,6 @@ flowchart TD
 1. Comprehensive unit, integration (UI), and Maestro end-to-end tests
 2. Enhanced form and field validations (especially for HTML/body)
 3. Cross-platform PDF renderer improvements (especially on Android—smoother navigation/UI)
-4. Accessible and localized error messages (validation and network/database)
 5. iOS/desktop performance optimizations for large notes
 6. Documentation expansion, including demo links/screenshots and E2E test setup guide
 
