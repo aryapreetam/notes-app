@@ -4,15 +4,17 @@ import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
 import java.awt.Dimension
 import org.notesapp.App
+import org.notesapp.di.initKoin
 
 fun main() = application {
-    Window(
-        title = "Personal Notes App",
-        state = rememberWindowState(width = 800.dp, height = 600.dp),
-        onCloseRequest = ::exitApplication,
-    ) {
-        window.minimumSize = Dimension(350, 600)
-        App()
-    }
+  initKoin()
+  Window(
+    title = "Personal Notes App",
+    state = rememberWindowState(width = 800.dp, height = 600.dp),
+    onCloseRequest = ::exitApplication,
+  ) {
+    window.minimumSize = Dimension(350, 600)
+    App()
+  }
 }
 

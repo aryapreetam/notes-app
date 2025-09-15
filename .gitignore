@@ -15,3 +15,7 @@ Pods/
 *.jks
 *.gpg
 *yarn.lock
+/.junie/
+/firebender.json
+/docs/
+/.github/

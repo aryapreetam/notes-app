@@ -1,0 +1,20 @@
+-- Schema and queries for notes
+
+CREATE TABLE notes (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  body TEXT NOT NULL,
+  createdDate INTEGER NOT NULL
+);
+
+selectAll:
+SELECT id, title, body, createdDate
+FROM notes
+ORDER BY createdDate DESC;
+
+insertNote:
+INSERT INTO notes(title, body, createdDate)
+VALUES (?, ?, ?);
+
+deleteById:
+DELETE FROM notes WHERE id = ?;
