@@ -97,6 +97,17 @@ android {
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
+
+  buildTypes {
+    release {
+      isMinifyEnabled = true
+      proguardFiles(
+        getDefaultProguardFile("proguard-android-optimize.txt"),
+        file("proguard-rules.pro")
+      )
+      signingConfig = signingConfigs.getByName("release")
+    }
+  }
 }
 
 //https://developer.android.com/develop/ui/compose/testing#setup

@@ -14,19 +14,18 @@ works on Android, iOS, and Desktop(Only for development purposes).
 
 ---
 
-## 🎥 Demo
+## 🎥 Demo Android & iOS
 
-- iOS
-
-https://github.com/user-attachments/assets/5b96ecf6-a1a3-476d-92e7-24a913b88428
-
-- Android
-
-https://github.com/user-attachments/assets/416597a4-1b73-435d-b69d-fbf9a6ab5f1b
-
-- 🖼️ [Screenshots](#) <!-- REPLACE WITH ACTUAL SCREENSHOT LINKS -->
+<table>
+  <tr>
+    <td><video src="https://github.com/user-attachments/assets/416597a4-1b73-435d-b69d-fbf9a6ab5f1b"></video></td>    
+    <td><video src="https://github.com/user-attachments/assets/5b96ecf6-a1a3-476d-92e7-24a913b88428"></video></td>
+  </tr>
+</table>
 
 ---
+
+### 🤖 APK link: [Notes App](https://github.com/aryapreetam/notes-app/releases/download/v1.0.0/NotesApp.apk) 
 
 ## 🗂️ Project Structure & Architecture
 
@@ -189,6 +188,11 @@ flowchart TD
 ---
 
 ## 🚀 Installation & Usage
+```agsl
+git clone https://github.com/aryapreetam/notes-app.git
+cd notes-app
+./gradlew :composeApp:assembleDebug
+```
 
 ### Prerequisites
 
@@ -235,8 +239,8 @@ flowchart TD
 - <strong>UI:</strong> JetBrains Compose Multiplatform, Material3 Expressive
 - <strong>Dependency Injection:</strong> Koin (core, compose, viewmodel)
 - <strong>Database:</strong> SQLDelight (core, coroutines, multiplatform drivers)
-- <strong>Testing:</strong> Kotlinx Test, Compose UI Test, Maestro (E2E planned), Mockk, Turbine
-- <strong>Platform Integration:</strong> Compose WebView Multiplatform, Bouquet (PDF), kotlinx.datetime
+- <strong>Testing:</strong> Kotlinx Test, Compose UI Test, Maestro (E2E planned)
+- <strong>Platform Integration:</strong> Compose WebView Multiplatform, Bouquet (PDF on Android), `platform.PDFKit` (PDF on iOS), kotlinx.datetime
 - <strong>Logging:</strong> Kermit
 
 ---
@@ -245,7 +249,7 @@ flowchart TD
 
 - <strong>HTML Body/Clicks:</strong> Notes can include HTML body, displayed in a Compose WebView. Clicks inside HTML (
   links, buttons) are handled with a custom JS Bridge (see `NoteCard.kt`), which sends events from the WebView back to
-  the ViewModel/UI for further actions. Only allow-listed tags are accepted.
+  the UI(handled via `IJsMessageHandler`) for further actions. 
 - <strong>PDF Viewing:</strong> Notes, or screens, can open PDF links in a dedicated PDF Viewer screen/component.
   Currently, Android PDF UX may be improved—see TODOs below.
 
