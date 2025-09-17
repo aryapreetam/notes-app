@@ -34,20 +34,20 @@ val databaseModule = module {
 }
 
 val repositoryModule = module {
-  singleOf<NotesRepository>(::NotesRepositoryImpl)
+  single { NotesRepositoryImpl(get()) }
+  single<NotesRepository> { get<NotesRepositoryImpl>() }
 }
 
 val useCaseModule = module {
-  factoryOf(::CreateNoteUseCase)
-  factoryOf(::DeleteNoteUseCase)
-  factoryOf(::GetNotesUseCase)
+  factory { CreateNoteUseCase(get()) }
+  factory { DeleteNoteUseCase(get()) }
+  factory { GetNotesUseCase(get()) }
   factoryOf(::ValidateHtmlUseCase)
 }
 
 val viewModelModule = module {
-  // Using factoryOf for multiplatform compatibility
-  viewModelOf(::NotesListViewModel)
-  viewModelOf(::CreateNoteViewModel)
+  factory { NotesListViewModel(get(), get()) }
+  factory { CreateNoteViewModel(get(), get()) }
 }
 
 expect val platformModule: Module

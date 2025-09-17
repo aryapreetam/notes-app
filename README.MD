@@ -180,7 +180,7 @@ flowchart TD
 - <strong>UI:</strong> Material3 Expressive with custom themes/components. Pure Compose with state as single source of
   truth.
 - <strong>HTML & PDF:</strong> Rich-text body using WebView widgets and PDF Viewer component.
-- <strong>Testing:</strong> Unit, UI Compose, and Maestro E2E (planned, see TODO).
+- <strong>Testing:</strong> Unit, UI Compose, and Maestro E2E (all implemented and passing).
 - <strong>Logging:</strong> Kermit logger everywhere, no PII.
 - <strong>Platform abstraction:</strong> actual/expect code for database drivers, date formatting, and native
   integrations.
@@ -222,15 +222,46 @@ cd notes-app
 
 ---
 
-## 🧪 Running Tests (TBD)
+## 🧪 Running Tests
 
-- <strong>Unit tests (domain, repository, utils):</strong>
+- **Unit tests (domain, repository, utils):**
     - `./gradlew :composeApp:commonTest`
-- <strong>UI Compose tests:</strong>
+- **UI Compose tests:**
     - Android: `./gradlew :composeApp:connectedDebugAndroidTest`
     - Desktop: `./gradlew :composeApp:jvmTest`
-- <strong>End-to-End (Maestro):</strong>
-    - (Setup Maestro CLI, then run E2E scripts)
+- **End-to-End (Maestro E2E):**
+    - Run: `maestro test maestro-e2e`
+    - (Make sure you have installed Maestro CLI; see below)
+
+## 🏃 Maestro End-to-End Testing
+
+To run E2E tests, you need [Maestro](https://maestro.mobile.dev/) installed:
+
+```sh
+# Mac OS (recommended):
+brew install maestro
+
+# Or for all platforms (see official docs):
+curl -Ls "https://get.maestro.mobile.dev" | bash
+```
+
+Then, run all E2E tests for this project:
+
+```sh
+# run below command from project root
+maestro test maestro-e2e
+```
+
+```sh
+# output
+Waiting for flows to complete...                                                                                                                                                                                            
+[Passed] noteslist_empty_state (19s)
+[Passed] note_create_and_delete (1m 43s)
+[Passed] note_interactions (1m 53s)
+[Passed] overflow_pdf_viewer (36s)
+
+4/4 Flows Passed in 4m 31s
+```
 
 ---
 
@@ -239,7 +270,7 @@ cd notes-app
 - <strong>UI:</strong> JetBrains Compose Multiplatform, Material3 Expressive
 - <strong>Dependency Injection:</strong> Koin (core, compose, viewmodel)
 - <strong>Database:</strong> SQLDelight (core, coroutines, multiplatform drivers)
-- <strong>Testing:</strong> Kotlinx Test, Compose UI Test, Maestro (E2E planned)
+- <strong>Testing:</strong> Kotlinx Test, Compose UI Test, Maestro (End-to-end)
 - <strong>Platform Integration:</strong> Compose WebView Multiplatform, Bouquet (PDF on Android), `platform.PDFKit` (PDF on iOS), kotlinx.datetime
 - <strong>Logging:</strong> Kermit
 
@@ -257,12 +288,11 @@ cd notes-app
 
 ## 📝 To Be Done
 
-1. Comprehensive unit, integration (UI), and Maestro end-to-end tests
-2. Enhanced form and field validations (especially for HTML/body)
-3. Cross-platform PDF renderer improvements (especially on Android—smoother navigation/UI)
-5. iOS/desktop performance optimizations for large notes
-6. Documentation expansion, including demo links/screenshots and E2E test setup guide
+1. Enhanced form and field validations (especially for HTML/body)
+2. Cross-platform PDF renderer improvements (especially on Android—smoother navigation/UI)
+3. iOS/desktop performance optimizations for large notes
 
 ---
 
 Happy note-taking! 🚀
+

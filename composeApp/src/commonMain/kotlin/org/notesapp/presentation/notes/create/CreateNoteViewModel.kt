@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.koin.core.component.KoinComponent
 import org.notesapp.domain.usecase.CreateNoteUseCase
 import org.notesapp.domain.usecase.ValidateHtmlUseCase
 import kotlin.time.Clock
@@ -20,7 +19,7 @@ import kotlin.time.ExperimentalTime
 class CreateNoteViewModel(
   private val createNote: CreateNoteUseCase,
   private val validateHtml: ValidateHtmlUseCase,
-) : ViewModel(), KoinComponent {
+) : ViewModel() {
   private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
   @OptIn(ExperimentalTime::class)

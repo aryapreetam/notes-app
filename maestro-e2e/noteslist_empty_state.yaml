@@ -1,0 +1,7 @@
+# maestro-e2e/noteslist_empty_state.yaml
+appId: org.notesapp
+---
+- clearState
+- launchApp
+- assertVisible: "No notes yet. Create your first note!"
+- assertVisible: "No notes image"

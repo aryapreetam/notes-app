@@ -1,0 +1,9 @@
+appId: org.notesapp
+---
+- clearState
+- launchApp
+- tapOn: "More options"
+- tapOn: "View PDF"
+- assertVisible: "PDF Viewer"
+- tapOn: "Back"
+- assertVisible: "My Notes"

@@ -1,0 +1,16 @@
+appId: org.notesapp
+---
+- clearState
+- launchApp
+- tapOn: "Add Note"
+- tapOn: "Title"
+- inputText: "KMP E2E Test"
+- tapOn: "Content (HTML)"
+- inputText: "<button onclick=\"showInfo('Clicked on Button 1')\">Click Me 1</button><a href=\"#\" onclick=\"showInfo('Link Clicked')\">Click This Link</a><script>;function showInfo(o){if(window.kmpJsBridge){window.kmpJsBridge.callNative('showInfo',o,function(o){console.log('Greet from Native: '+o)})}};</script>"
+- hideKeyboard
+- tapOn: "Save Note"
+- tapOn: "Click Me 1"
+- assertVisible: "Clicked on Button 1"
+- tapOn: "OK"
+- tapOn: "Click This Link"
+- assertVisible: "Link Clicked"

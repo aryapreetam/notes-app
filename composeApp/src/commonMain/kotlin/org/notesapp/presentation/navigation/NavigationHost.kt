@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import org.koin.compose.koinInject
+import org.koin.compose.viewmodel.koinViewModel
 import org.notesapp.presentation.notes.create.CreateNoteScreen
 import org.notesapp.presentation.notes.list.NotesListScreen
 import org.notesapp.presentation.pdf.PdfScreen
@@ -21,6 +22,7 @@ fun NavigationHost(
   NavHost(navController = navController, startDestination = Screen.NotesList) {
     composable<Screen.NotesList> {
       NotesListScreen(
+        viewModel = koinViewModel(),
         onAddClick = { navController.navigate(Screen.CreateNote) },
         onJsMessage = onJsMessage,
         onViewPdf = {
@@ -30,6 +32,7 @@ fun NavigationHost(
     }
     composable<Screen.CreateNote> {
       CreateNoteScreen(
+        viewModel = koinViewModel(),
         onDatePickRequest = {},
         onSaved = {
           navController.popBackStack()

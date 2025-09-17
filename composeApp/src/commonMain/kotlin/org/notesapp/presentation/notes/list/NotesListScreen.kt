@@ -17,7 +17,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.viewmodel.koinViewModel
 import org.notesapp.data.model.Note
 import org.notesapp.presentation.components.NoteCard
 import org.notesapp.theme.LocalThemeIsDark
@@ -27,12 +26,12 @@ import personal_notes_app.composeapp.generated.resources.my_notes_icon
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotesListScreen(
+  viewModel: NotesListViewModel,
   onAddClick: () -> Unit,
   onJsMessage: (String) -> Unit,
   onViewPdf: () -> Unit = {},
   modifier: Modifier = Modifier,
 ) {
-  val viewModel = koinViewModel<NotesListViewModel>()
   val state by viewModel.state.collectAsState()
 
   // Theme state from CompositionLocal

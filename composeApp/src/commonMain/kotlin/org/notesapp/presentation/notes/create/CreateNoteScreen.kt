@@ -14,20 +14,22 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import org.koin.compose.viewmodel.koinViewModel
 import org.notesapp.utils.DateFormatter
 import org.notesapp.presentation.components.DatePickerDialog
 import androidx.compose.material3.rememberDatePickerState
+import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.notesapp.domain.usecase.CreateNoteUseCase
+import org.notesapp.domain.usecase.ValidateHtmlUseCase
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateNoteScreen(
+  viewModel: CreateNoteViewModel,
   onBackClick: () -> Unit,
   onDatePickRequest: () -> Unit,
   onSaved: () -> Unit
 ) {
-  val viewModel = koinViewModel<CreateNoteViewModel>()
   val state by viewModel.state.collectAsState()
   val fm = LocalFocusManager.current
 
@@ -89,7 +91,7 @@ fun CreateNoteScreen(
           modifier = Modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 120.dp),
-          keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Default),
+          keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Default, autoCorrectEnabled = false),
           maxLines = 10,
           minLines = 5,
         )
@@ -139,10 +141,23 @@ fun CreateNoteScreen(
   )
 }
 
+// Preview helpers
+fun previewCreateNoteViewModel(): CreateNoteViewModel {
+  val fakeNotesRepo = object : org.notesapp.data.repository.NotesRepository {
+    override fun observeNotes() = flowOf(emptyList<org.notesapp.data.model.Note>())
+    override suspend fun createNote(title: String, body: String, createdDateMillis: Long) {}
+    override suspend fun deleteNote(id: Long) {}
+  }
+  val fakeCreateNote = CreateNoteUseCase(fakeNotesRepo)
+  val fakeValidateHtml = ValidateHtmlUseCase()
+  return CreateNoteViewModel(fakeCreateNote, fakeValidateHtml)
+}
+
 @Preview
 @Composable
 fun CreateNoteScreenPreview() {
   CreateNoteScreen(
+    viewModel = previewCreateNoteViewModel(),
     onBackClick = {},
     onDatePickRequest = {},
     onSaved = {}

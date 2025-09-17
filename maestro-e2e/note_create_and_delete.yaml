@@ -1,0 +1,15 @@
+appId: org.notesapp
+---
+- clearState
+- launchApp
+- tapOn: "Add Note"
+- tapOn: "Title"
+- inputText: "Single note"
+- tapOn: "Content (HTML)"
+- inputText: "<button onclick=\"showInfo('Clicked on Button 1')\">Click Me 1</button><a href=\"#\" onclick=\"showInfo('Link Clicked')\">Click This Link</a><script>;function showInfo(o){if(window.kmpJsBridge){window.kmpJsBridge.callNative('showInfo',o,function(o){console.log('Greet from Native: '+o)})}};</script>"
+- hideKeyboard
+- tapOn: "Save Note"
+# Delete the note (update as appropriate for delete button/dialog)
+- tapOn: "Delete note"
+- tapOn: "Delete"
+- assertVisible: "No notes yet. Create your first note!"

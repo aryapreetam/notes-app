@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import org.koin.core.component.KoinComponent
 import org.notesapp.data.model.Note
 import org.notesapp.domain.usecase.DeleteNoteUseCase
 import org.notesapp.domain.usecase.GetNotesUseCase
@@ -17,7 +16,7 @@ import org.notesapp.domain.usecase.GetNotesUseCase
 class NotesListViewModel(
   private val getNotes: GetNotesUseCase,
   private val deleteNote: DeleteNoteUseCase,
-) : ViewModel(), KoinComponent {
+) : ViewModel() {
   private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
   private val _state = MutableStateFlow(NotesListUiState(isLoading = true))

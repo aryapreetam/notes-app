@@ -80,6 +80,7 @@ kotlin {
     iosMain.dependencies {
       implementation(libs.sqlDelight.driver.native)
     }
+
   }
 }
 
@@ -91,22 +92,11 @@ android {
     minSdk = 23
     targetSdk = 36
 
-    applicationId = "org.notesapp.androidApp"
+    applicationId = "org.notesapp"
     versionCode = 1
     versionName = "1.0.0"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-  }
-
-  buildTypes {
-    release {
-      isMinifyEnabled = true
-      proguardFiles(
-        getDefaultProguardFile("proguard-android-optimize.txt"),
-        file("proguard-rules.pro")
-      )
-      signingConfig = signingConfigs.getByName("release")
-    }
   }
 }
 

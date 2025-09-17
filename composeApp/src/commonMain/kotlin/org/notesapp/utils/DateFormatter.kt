@@ -1,5 +1,4 @@
 package org.notesapp.utils
-
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone

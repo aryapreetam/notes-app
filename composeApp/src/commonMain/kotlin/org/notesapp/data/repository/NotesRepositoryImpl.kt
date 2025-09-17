@@ -5,15 +5,11 @@ import app.cash.sqldelight.coroutines.mapToList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 import org.notesapp.data.model.Note
 import org.notesapp.db.NotesDB
 
 /** SQLDelight-backed implementation of [NotesRepository]. */
-class NotesRepositoryImpl() : NotesRepository, KoinComponent {
-
-  private val db: NotesDB by inject()
+class NotesRepositoryImpl(private val db: NotesDB) : NotesRepository {
 
   private val queries get() = db.notesQueries
 
