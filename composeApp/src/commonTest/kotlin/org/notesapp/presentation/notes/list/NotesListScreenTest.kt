@@ -11,7 +11,7 @@ import org.notesapp.domain.usecase.DeleteNoteUseCase
 import org.notesapp.domain.usecase.GetNotesUseCase
 import kotlin.test.Test
 
-class FakeNotesRepository(private val notes: List<Note>) : NotesRepository {
+internal class FakeScreenNotesRepository(private val notes: List<Note>) : NotesRepository {
   private val _notesFlow = MutableStateFlow(notes)
   override fun observeNotes(): Flow<List<Note>> = _notesFlow
   override suspend fun createNote(title: String, body: String, createdDateMillis: Long) {}
@@ -24,7 +24,7 @@ class FakeNotesRepository(private val notes: List<Note>) : NotesRepository {
 class NotesListScreenTest {
   @Test
   fun showsEmptyState_whenNoNotes() = runComposeUiTest {
-    val fakeRepo = FakeNotesRepository(emptyList())
+    val fakeRepo = FakeScreenNotesRepository(emptyList())
     val getNotes = GetNotesUseCase(fakeRepo)
     val deleteNote = DeleteNoteUseCase(fakeRepo)
     val viewModel = NotesListViewModel(getNotes, deleteNote)
@@ -47,7 +47,7 @@ class NotesListScreenTest {
       Note(id = 1L, title = "Test Note", body = "Test Body", createdDateMillis = 1000L),
       Note(id = 2L, title = "Second Note", body = "Second Body", createdDateMillis = 5678L)
     )
-    val fakeRepo = FakeNotesRepository(notes)
+    val fakeRepo = FakeScreenNotesRepository(notes)
     val getNotes = GetNotesUseCase(fakeRepo)
     val deleteNote = DeleteNoteUseCase(fakeRepo)
     val viewModel = NotesListViewModel(getNotes, deleteNote)
@@ -70,7 +70,7 @@ class NotesListScreenTest {
       Note(id = 1L, title = "Alpha Note", body = "Alpha Body", createdDateMillis = 1111L),
       Note(id = 2L, title = "Beta Note", body = "Beta Body", createdDateMillis = 2222L)
     )
-    val fakeRepo = FakeNotesRepository(notes)
+    val fakeRepo = FakeScreenNotesRepository(notes)
     val getNotes = GetNotesUseCase(fakeRepo)
     val deleteNote = DeleteNoteUseCase(fakeRepo)
     val viewModel = NotesListViewModel(getNotes, deleteNote)

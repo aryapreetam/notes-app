@@ -20,7 +20,6 @@ import androidx.compose.material3.rememberDatePickerState
 import kotlinx.coroutines.flow.flowOf
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.notesapp.domain.usecase.CreateNoteUseCase
-import org.notesapp.domain.usecase.ValidateHtmlUseCase
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -149,8 +148,7 @@ fun previewCreateNoteViewModel(): CreateNoteViewModel {
     override suspend fun deleteNote(id: Long) {}
   }
   val fakeCreateNote = CreateNoteUseCase(fakeNotesRepo)
-  val fakeValidateHtml = ValidateHtmlUseCase()
-  return CreateNoteViewModel(fakeCreateNote, fakeValidateHtml)
+  return CreateNoteViewModel(fakeCreateNote)
 }
 
 @Preview

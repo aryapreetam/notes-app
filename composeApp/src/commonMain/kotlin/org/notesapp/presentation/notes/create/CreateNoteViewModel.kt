@@ -1,10 +1,9 @@
 package org.notesapp.presentation.notes.create
 
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,15 +11,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.notesapp.domain.usecase.CreateNoteUseCase
-import org.notesapp.domain.usecase.ValidateHtmlUseCase
+import org.notesapp.utils.HtmlValidator
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
 class CreateNoteViewModel(
   private val createNote: CreateNoteUseCase,
-  private val validateHtml: ValidateHtmlUseCase,
 ) : ViewModel() {
-  private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
   @OptIn(ExperimentalTime::class)
   private val _state = MutableStateFlow(
@@ -41,7 +38,7 @@ class CreateNoteViewModel(
   }
 
   fun onBodyChange(value: String) {
-    val result = validateHtml(value)
+    val result = HtmlValidator.validate(value)
     _state.update { it.copy(body = value, bodyError = result.error, isHtmlValid = result.isValid) }
   }
 
@@ -52,13 +49,9 @@ class CreateNoteViewModel(
   fun save() {
     val s = _state.value
     if (!s.canSave) return
-    scope.launch {
+    viewModelScope.launch {
       _state.update { it.copy(isSaving = true) }
-      // Perform background work on IO dispatcher
-      withContext(Dispatchers.IO) {
-        createNote(s.title.trim(), s.body.trim(), s.selectedDateMillis)
-      }
-      // Update UI state and call navigation callback on main thread
+      createNote(s.title.trim(), s.body.trim(), s.selectedDateMillis)
       _state.update { it.copy(isSaving = false, saveSuccess = true) }
     }
   }

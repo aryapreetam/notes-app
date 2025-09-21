@@ -14,7 +14,6 @@ import org.notesapp.data.repository.NotesRepositoryImpl
 import org.notesapp.domain.usecase.CreateNoteUseCase
 import org.notesapp.domain.usecase.DeleteNoteUseCase
 import org.notesapp.domain.usecase.GetNotesUseCase
-import org.notesapp.domain.usecase.ValidateHtmlUseCase
 import org.notesapp.presentation.notes.create.CreateNoteViewModel
 import org.notesapp.presentation.notes.list.NotesListViewModel
 
@@ -42,12 +41,11 @@ val useCaseModule = module {
   factory { CreateNoteUseCase(get()) }
   factory { DeleteNoteUseCase(get()) }
   factory { GetNotesUseCase(get()) }
-  factoryOf(::ValidateHtmlUseCase)
 }
 
 val viewModelModule = module {
   factory { NotesListViewModel(get(), get()) }
-  factory { CreateNoteViewModel(get(), get()) }
+  factory { CreateNoteViewModel(get()) }
 }
 
 expect val platformModule: Module

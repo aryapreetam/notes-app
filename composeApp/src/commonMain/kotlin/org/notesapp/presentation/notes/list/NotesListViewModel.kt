@@ -1,6 +1,7 @@
 package org.notesapp.presentation.notes.list
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -17,15 +18,18 @@ class NotesListViewModel(
   private val getNotes: GetNotesUseCase,
   private val deleteNote: DeleteNoteUseCase,
 ) : ViewModel() {
-  private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
   private val _state = MutableStateFlow(NotesListUiState(isLoading = true))
   val state: StateFlow<NotesListUiState> = _state.asStateFlow()
 
   init {
-    scope.launch {
-      getNotes().collect { notes ->
-        _state.update { it.copy(isLoading = false, notes = notes, error = null) }
+    viewModelScope.launch {
+      try {
+        getNotes().collect { notes ->
+          _state.update { it.copy(isLoading = false, notes = notes, error = null) }
+        }
+      } catch (e: Exception) {
+        _state.update { it.copy(isLoading = false, error = e.message ?: "Unknown error") }
       }
     }
   }
@@ -40,7 +44,7 @@ class NotesListViewModel(
 
   fun confirmDelete() {
     val note = _state.value.noteToDelete ?: return
-    scope.launch {
+    viewModelScope.launch {
       _state.update { it.copy(isDeleting = true) }
       deleteNote(note.id)
       _state.update { it.copy(isDeleting = false, showDeleteDialog = false, noteToDelete = null) }

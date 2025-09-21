@@ -13,11 +13,9 @@ import org.notesapp.data.repository.NotesRepository
 import org.notesapp.domain.usecase.CreateNoteUseCase
 import org.notesapp.domain.usecase.GetNotesUseCase
 import org.notesapp.domain.usecase.DeleteNoteUseCase
-import org.notesapp.domain.usecase.ValidateHtmlUseCase
-import org.notesapp.presentation.notes.create.CreateNoteScreen
-import org.notesapp.presentation.notes.create.CreateNoteViewModel
 import org.notesapp.presentation.notes.list.NotesListScreen
 import org.notesapp.presentation.notes.list.NotesListViewModel
+import org.notesapp.utils.HtmlValidator
 import kotlin.test.Test
 
 class SharedFakeNotesRepository : NotesRepository {
@@ -38,8 +36,7 @@ class CreateNoteScreenTest {
   fun showsInitialEmptyUi() = runComposeUiTest {
     val fakeRepo = SharedFakeNotesRepository()
     val createNote = CreateNoteUseCase(fakeRepo)
-    val validateHtml = ValidateHtmlUseCase()
-    val viewModel = CreateNoteViewModel(createNote, validateHtml)
+    val viewModel = CreateNoteViewModel(createNote)
     setContent {
       CreateNoteScreen(
         viewModel = viewModel,
@@ -51,14 +48,13 @@ class CreateNoteScreenTest {
     onNodeWithText("Title").assertIsDisplayed()
     onNodeWithText("Content (HTML)").assertIsDisplayed()
     onNodeWithText("Save Note").assertIsDisplayed()
-    }
+  }
 
   @Test
   fun creatingNote_showsInNotesListScreen() = runComposeUiTest {
     val sharedRepo = SharedFakeNotesRepository()
     val createNote = CreateNoteUseCase(sharedRepo)
-    val validateHtml = ValidateHtmlUseCase()
-    val createNoteViewModel = CreateNoteViewModel(createNote, validateHtml)
+    val createNoteViewModel = CreateNoteViewModel(createNote)
     val getNotes = GetNotesUseCase(sharedRepo)
     val deleteNote = DeleteNoteUseCase(sharedRepo)
     val notesListViewModel = NotesListViewModel(getNotes, deleteNote)
