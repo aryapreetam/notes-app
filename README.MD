@@ -72,7 +72,6 @@ flowchart TD
     UC1["CreateNoteUseCase"]:::service
     UC2["DeleteNoteUseCase"]:::service
     UC3["GetNotesUseCase"]:::service
-    UC4["ValidateHtmlUseCase"]:::service
 
     %%--- LAYER: Repository+Database ---
     REPO["NotesRepository"]:::data
@@ -98,7 +97,6 @@ flowchart TD
     VM1-->|"State/Actions"|UC3
     VM1-->|"State/Actions"|UC2
     VM2-->|"State/Actions"|UC1
-    VM2-->|"Validation"|UC4
 
     %%--- UseCases to Repo ---
     UC1-->|"Repo"|REPO
@@ -114,7 +112,6 @@ flowchart TD
     KOIN-.->UC1
     KOIN-.->UC2
     KOIN-.->UC3
-    KOIN-.->UC4
     KOIN-.->REPO
 
     %%--- Logging connections ---
@@ -129,7 +126,7 @@ flowchart TD
 
     %%--- Invisible links for alignment ---
     VM1 ~~~ VM2
-    UC2 ~~~ UC3 ~~~ UC1 ~~~ UC4
+    UC2 ~~~ UC3 ~~~ UC1
 
     %%--- Node Groups by class ---
     classDef service fill:#ECEFFF,stroke:#a9a9c3,color:#000,font-weight:bold;
@@ -164,7 +161,6 @@ flowchart TD
     UC1:::service
     UC2:::service
     UC3:::service
-    UC4:::service
 ```
 
 ---
